@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect width="72" height="72" rx="10" fill="#1e3a5f"/>
+  <rect x="12" y="14" width="48" height="30" rx="4" fill="none" stroke="#4a9eff" stroke-width="2"/>
+  <rect x="16" y="18" width="40" height="22" rx="2" fill="#0d2137"/>
+  <line x1="28" y1="44" x2="44" y2="44" stroke="#4a9eff" stroke-width="2"/>
+  <rect x="30" y="44" width="12" height="6" rx="1" fill="#4a9eff"/>
+  <circle cx="24" cy="26" r="3" fill="#4CAF50"/>
+  <rect x="30" y="24" width="20" height="2" rx="1" fill="#4a9eff" opacity="0.8"/>
+  <rect x="30" y="28" width="14" height="2" rx="1" fill="#4a9eff" opacity="0.5"/>
+  <text x="36" y="62" text-anchor="middle" fill="#4a9eff" font-size="8" font-family="sans-serif" font-weight="bold">PROXMOX</text>
+</svg>

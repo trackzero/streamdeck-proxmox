@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VM Monitor Settings</title>
+  <style>
+    :root {
+      --bg: #1e1e1e;
+      --surface: #2a2a2a;
+      --border: #3a3a3a;
+      --accent: #e07800;
+      --text: #e0e0e0;
+      --text-dim: #888;
+      --success: #4caf50;
+      --error: #f44336;
+      --input-bg: #333;
+      --input-focus: #444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 12px;
+      background: var(--bg);
+      color: var(--text);
+      padding: 8px;
+    }
+
+    .section {
+      margin-bottom: 12px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 8px;
+    }
+
+    label {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    select {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-size: 12px;
+      padding: 5px 8px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      background: var(--input-focus);
+    }
+
+    input::placeholder { color: #555; }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 14px; height: 14px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .checkbox-row label {
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    button {
+      background: var(--accent);
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      transition: opacity 0.15s;
+      width: 100%;
+    }
+
+    button:hover { opacity: 0.85; }
+    button:active { opacity: 0.7; }
+    button:disabled { opacity: 0.4; cursor: default; }
+
+    .status-bar {
+      border-radius: 4px;
+      font-size: 11px;
+      margin-bottom: 8px;
+      padding: 5px 8px;
+      display: none;
+    }
+    .status-bar.success { background: rgba(76,175,80,0.15); border: 1px solid var(--success); color: var(--success); display: block; }
+    .status-bar.error   { background: rgba(244,67,54,0.15);  border: 1px solid var(--error);   color: var(--error);   display: block; }
+    .status-bar.info    { background: rgba(224,120,0,0.1);   border: 1px solid var(--accent);  color: var(--accent);  display: block; }
+
+    .range-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .range-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent);
+      padding: 0;
+    }
+    .range-value {
+      font-size: 11px;
+      color: var(--text-dim);
+      min-width: 42px;
+      text-align: right;
+    }
+
+    select option { background: var(--surface); }
+
+    .vm-badge {
+      display: inline-block;
+      background: rgba(74,158,255,0.2);
+      border: 1px solid rgba(74,158,255,0.4);
+      border-radius: 3px;
+      color: #4a9eff;
+      font-size: 9px;
+      padding: 1px 4px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .vm-badge.lxc {
+      background: rgba(224,120,0,0.2);
+      border-color: rgba(224,120,0,0.4);
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Connection Section -->
+  <div class="section">
+    <div class="section-label">Connection</div>
+
+    <div class="field">
+      <label for="host">Proxmox Host</label>
+      <input type="text" id="host" placeholder="192.168.1.10:8006" autocomplete="off" spellcheck="false" />
+    </div>
+
+    <div class="field">
+      <label for="apiToken">API Token</label>
+      <input type="password" id="apiToken" placeholder="user@pam!tokenid=uuid" autocomplete="off" spellcheck="false" />
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="allowSelfSigned" checked />
+      <label for="allowSelfSigned">Allow self-signed certificate</label>
+    </div>
+
+    <div id="statusBar" class="status-bar"></div>
+
+    <button id="btnTest">Test Connection &amp; Load VMs</button>
+  </div>
+
+  <!-- VM Selection Section -->
+  <div class="section" id="sectionVm" style="display:none">
+    <div class="section-label">Virtual Machine</div>
+
+    <div class="field">
+      <label for="node">Node</label>
+      <select id="node">
+        <option value="">— select node —</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="vmSelect">VM / Container</label>
+      <select id="vmSelect">
+        <option value="">— select VM —</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Behavior Section -->
+  <div class="section">
+    <div class="section-label">Behavior</div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="requireConfirmation" />
+      <label for="requireConfirmation">Require confirmation press</label>
+    </div>
+
+    <div class="field">
+      <label>Hold duration for reboot</label>
+      <div class="range-row">
+        <input type="range" id="longPressMs" min="300" max="1500" step="100" value="500" />
+        <span class="range-value" id="longPressMsLabel">500 ms</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  "use strict";
+
+  // ── WebSocket / Stream Deck connection ──────────────────────────────────────
+  let ws;
+  let uuid;
+  let registerEvent;
+
+  // All loaded VMs indexed by node
+  let loadedVms = [];
+  let currentSettings = {};
+
+  function connectElgatoStreamDeckSocket(port, inUUID, inRegisterEvent, inInfo) {
+    uuid = inUUID;
+    registerEvent = inRegisterEvent;
+
+    ws = new WebSocket("ws://localhost:" + port);
+
+    ws.onopen = () => {
+      ws.send(JSON.stringify({ event: registerEvent, uuid }));
+      ws.send(JSON.stringify({ event: "getSettings", context: uuid }));
+    };
+
+    ws.onmessage = (evt) => {
+      const msg = JSON.parse(evt.data);
+
+      if (msg.event === "didReceiveSettings") {
+        currentSettings = msg.payload.settings || {};
+        applySettings(currentSettings);
+      }
+
+      if (msg.event === "sendToPropertyInspector") {
+        handlePluginMessage(msg.payload);
+      }
+    };
+  }
+
+  // ── Apply settings to UI ────────────────────────────────────────────────────
+  function applySettings(s) {
+    if (s.host)       document.getElementById("host").value = s.host;
+    if (s.apiToken)   document.getElementById("apiToken").value = s.apiToken;
+    if (s.allowSelfSigned !== undefined)
+      document.getElementById("allowSelfSigned").checked = !!s.allowSelfSigned;
+    if (s.requireConfirmation !== undefined)
+      document.getElementById("requireConfirmation").checked = !!s.requireConfirmation;
+    if (s.longPressMs) {
+      document.getElementById("longPressMs").value = s.longPressMs;
+      document.getElementById("longPressMsLabel").textContent = s.longPressMs + " ms";
+    }
+    // Node/VM selects are populated dynamically via Test Connection
+  }
+
+  // ── Handle messages from plugin ─────────────────────────────────────────────
+  function handlePluginMessage(payload) {
+    if (payload.event !== "connectionResult") return;
+
+    document.getElementById("btnTest").disabled = false;
+
+    if (!payload.success) {
+      showStatus("error", "Connection failed: " + (payload.error || "Unknown error"));
+      return;
+    }
+
+    loadedVms = payload.vms || [];
+    populateNodes(payload.nodes || []);
+    showStatus("success", "Connected — " + loadedVms.length + " VM(s) found");
+    document.getElementById("sectionVm").style.display = "";
+
+    // Restore previously saved node/vm selection
+    if (currentSettings.node) {
+      document.getElementById("node").value = currentSettings.node;
+      populateVmSelect(currentSettings.node);
+      if (currentSettings.vmid && currentSettings.vmType) {
+        document.getElementById("vmSelect").value =
+          currentSettings.vmType + ":" + currentSettings.vmid;
+      }
+    }
+  }
+
+  // ── Node / VM dropdowns ─────────────────────────────────────────────────────
+  function populateNodes(nodes) {
+    const sel = document.getElementById("node");
+    sel.innerHTML = '<option value="">— select node —</option>';
+    nodes.forEach((n) => {
+      const opt = document.createElement("option");
+      opt.value = n;
+      opt.textContent = n;
+      sel.appendChild(opt);
+    });
+  }
+
+  function populateVmSelect(node) {
+    const sel = document.getElementById("vmSelect");
+    sel.innerHTML = '<option value="">— select VM —</option>';
+    const vms = loadedVms.filter((v) => v.node === node);
+    vms.sort((a, b) => a.vmid - b.vmid);
+    vms.forEach((vm) => {
+      const opt = document.createElement("option");
+      opt.value = vm.type + ":" + vm.vmid;
+      const status = vm.status === "running" ? "●" : "○";
+      opt.textContent = status + " [" + vm.vmid + "] " + vm.name + " (" + vm.type.toUpperCase() + ")";
+      sel.appendChild(opt);
+    });
+  }
+
+  // ── Save settings ────────────────────────────────────────────────────────────
+  function saveSettings(patch) {
+    currentSettings = Object.assign({}, currentSettings, patch);
+    ws.send(JSON.stringify({
+      event: "setSettings",
+      context: uuid,
+      payload: currentSettings,
+    }));
+  }
+
+  // ── Status bar ───────────────────────────────────────────────────────────────
+  function showStatus(type, msg) {
+    const bar = document.getElementById("statusBar");
+    bar.className = "status-bar " + type;
+    bar.textContent = msg;
+  }
+
+  // ── Event listeners ──────────────────────────────────────────────────────────
+
+  document.getElementById("host").addEventListener("change", (e) => {
+    saveSettings({ host: e.target.value.trim() });
+  });
+
+  document.getElementById("apiToken").addEventListener("change", (e) => {
+    saveSettings({ apiToken: e.target.value.trim() });
+  });
+
+  document.getElementById("allowSelfSigned").addEventListener("change", (e) => {
+    saveSettings({ allowSelfSigned: e.target.checked });
+  });
+
+  document.getElementById("requireConfirmation").addEventListener("change", (e) => {
+    saveSettings({ requireConfirmation: e.target.checked });
+  });
+
+  document.getElementById("longPressMs").addEventListener("input", (e) => {
+    const val = parseInt(e.target.value);
+    document.getElementById("longPressMsLabel").textContent = val + " ms";
+  });
+
+  document.getElementById("longPressMs").addEventListener("change", (e) => {
+    saveSettings({ longPressMs: parseInt(e.target.value) });
+  });
+
+  document.getElementById("node").addEventListener("change", (e) => {
+    const node = e.target.value;
+    saveSettings({ node });
+    populateVmSelect(node);
+    // Clear VM selection
+    document.getElementById("vmSelect").value = "";
+    saveSettings({ vmid: null, vmType: null });
+  });
+
+  document.getElementById("vmSelect").addEventListener("change", (e) => {
+    const val = e.target.value;
+    if (!val) return;
+    const [vmType, vmidStr] = val.split(":");
+    const vmid = parseInt(vmidStr);
+    // Also store the node
+    const node = document.getElementById("node").value;
+    saveSettings({ vmType, vmid, node });
+  });
+
+  document.getElementById("btnTest").addEventListener("click", () => {
+    const host = document.getElementById("host").value.trim();
+    const apiToken = document.getElementById("apiToken").value.trim();
+    const allowSelfSigned = document.getElementById("allowSelfSigned").checked;
+
+    if (!host || !apiToken) {
+      showStatus("error", "Please enter a host and API token first");
+      return;
+    }
+
+    document.getElementById("btnTest").disabled = true;
+    showStatus("info", "Testing connection…");
+
+    ws.send(JSON.stringify({
+      event: "sendToPlugin",
+      context: uuid,
+      payload: {
+        event: "testConnection",
+        host,
+        apiToken,
+        allowSelfSigned,
+      },
+    }));
+  });
+</script>
+</body>
+</html>
