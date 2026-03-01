@@ -355,10 +355,10 @@ export class VmMonitorAction extends SingletonAction<VmMonitorSettings> {
         logger.error("Refresh after action failed:", err);
       });
     } catch (err) {
+      const errMsg = err instanceof Error ? err.message : String(err);
       logger.error(`vmAction(${vmAction}) failed:`, err);
-      await actionRef.showAlert();
       await actionRef
-        .setImage(buildKeyImage(st.lastResource, "normal"))
+        .setImage(buildKeyImage(st.lastResource, "error", shortErrorMsg(errMsg)))
         .catch(() => {});
     }
   }
