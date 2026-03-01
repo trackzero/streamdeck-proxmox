@@ -450,6 +450,6 @@ export class VmMonitorAction extends SingletonAction<VmMonitorSettings> {
 }
 
 function shortErrorMsg(msg: string): string {
-  const match = msg.match(/^([^:–—(]+)/);
+  const match = msg.match(/^([^–—(]+)/);
   return (match?.[1] ?? msg).trim().slice(0, 20);
 }
