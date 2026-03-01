@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
-  <rect width="72" height="72" rx="8" fill="#1e3a5f"/>
-  <circle cx="36" cy="26" r="10" fill="none" stroke="#4a9eff" stroke-width="2"/>
-  <circle cx="36" cy="26" r="5" fill="#9E9E9E"/>
-  <text x="36" y="48" text-anchor="middle" fill="#4a9eff" font-size="9" font-family="sans-serif">VM Monitor</text>
-  <text x="36" y="62" text-anchor="middle" fill="#888" font-size="8" font-family="sans-serif">Not configured</text>
-</svg>

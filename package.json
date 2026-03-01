@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "watch": "rollup -c --bundleConfigAsCjs -w",
-    "package": "streamdeck pack com.trackzero.proxmox.sdPlugin",
+    "package": "streamdeck pack com.trackzero.proxmox.sdPlugin -f",
     "icons": "node scripts/create-icons.mjs"
   },
   "dependencies": {
