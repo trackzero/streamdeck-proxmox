@@ -125,8 +125,9 @@ export class ProxmoxClient {
         return new Error("Proxmox permission denied — token lacks required privileges");
       }
       if (err.response?.status === 500) {
-        const msg = (err.response.data as { errors?: Record<string, string> })?.errors;
-        return new Error(`Proxmox error: ${JSON.stringify(msg) ?? "internal server error"}`);
+        const data = err.response.data as { errors?: Record<string, string> } | undefined;
+        const detail = data?.errors ? Object.values(data.errors).join(", ") : null;
+        return new Error(detail ? `Proxmox: ${detail}` : "Proxmox server error");
       }
       return new Error(
         `Proxmox API error (${context}): ${err.message}`
