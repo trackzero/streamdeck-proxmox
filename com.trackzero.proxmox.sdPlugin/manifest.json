@@ -13,8 +13,7 @@
     "MinimumVersion": "6.4"
   },
   "Nodejs": {
-    "Version": "20",
-    "Debug": "localhost:9222"
+    "Version": "20"
   },
   "OS": [
     {
