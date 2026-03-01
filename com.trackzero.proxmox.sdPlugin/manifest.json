@@ -5,6 +5,7 @@
   "Version": "1.0.0.0",
   "SDKVersion": 2,
   "Category": "Proxmox Monitor",
+  "CategoryIcon": "imgs/category-icon",
   "Description": "Monitor and control Proxmox VE virtual machines and LXC containers from your Stream Deck.",
   "Author": "trackzero",
   "Icon": "imgs/plugin-icon",
