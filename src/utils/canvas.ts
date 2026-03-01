@@ -65,24 +65,23 @@ export function buildKeyImage(
 ): string {
   const size = 72;
 
+  if (state === "error") {
+    const msg = truncate(errorMsg ?? "Error", 14);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+  <rect width="${size}" height="${size}" fill="${ERROR_COLOR}"/>
+  <text x="36" y="24" text-anchor="middle" fill="#ff5252" font-size="18" font-family="sans-serif">⚠</text>
+  <text x="36" y="42" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Error</text>
+  <text x="36" y="56" text-anchor="middle" fill="#aaa" font-size="8" font-family="sans-serif">${esc(msg)}</text>
+</svg>`;
+    return toBase64Svg(svg);
+  }
+
   if (state === "loading" || !vm) {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
   <rect width="${size}" height="${size}" fill="${LOADING_COLOR}"/>
   <text x="36" y="30" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif" font-weight="bold">VM Monitor</text>
   <text x="36" y="46" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Connecting…</text>
   <text x="36" y="60" text-anchor="middle" fill="#aaa" font-size="8" font-family="sans-serif">Check settings</text>
-</svg>`;
-    return toBase64Svg(svg);
-  }
-
-  if (state === "error") {
-    const msg = truncate(errorMsg ?? "Error", 11);
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-  <rect width="${size}" height="${size}" fill="${ERROR_COLOR}"/>
-  <text x="36" y="22" text-anchor="middle" fill="#ff5252" font-size="18" font-family="sans-serif">⚠</text>
-  <text x="36" y="40" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Connection</text>
-  <text x="36" y="52" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Error</text>
-  <text x="36" y="65" text-anchor="middle" fill="#aaa" font-size="7" font-family="sans-serif">${esc(msg)}</text>
 </svg>`;
     return toBase64Svg(svg);
   }

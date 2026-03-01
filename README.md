@@ -61,8 +61,8 @@ user@realm!tokenid=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 1. Drag the **VM Monitor** action onto any Stream Deck key
 2. Open the key's settings (Property Inspector)
 3. Enter your **Proxmox Host** (e.g. `192.168.1.10:8006`)
-4. Paste your **API Token**
-5. Leave **Allow self-signed certificate** checked (Proxmox uses a self-signed cert by default)
+4. Paste your **API Token** — this must be the **full string** Proxmox showed when you created the token, e.g. `root@pam!streamdeck=a1b2c3d4-e5f6-7890-abcd-ef1234567890`. The field placeholder shows the format; replace every part with your actual values. Entering only the UUID, omitting the realm (`@pam`), or leaving the placeholder text unchanged will cause an "authentication failed" error.
+5. If your Proxmox uses a **Let's Encrypt (or other trusted CA) certificate**, uncheck **Allow self-signed certificate**. Leave it checked for Proxmox's default self-signed cert.
 6. Click **Test Connection & Load VMs** — nodes and VMs will populate automatically
 7. Select the **Node** and **VM / Container**
 8. Optionally enable **Require confirmation** and adjust the **Hold duration**
