@@ -94,7 +94,8 @@ export class ProxmoxClient {
   ): Promise<string> {
     try {
       const res = await this.http.post<PveApiResponse<string>>(
-        `/nodes/${node}/${vmType}/${vmid}/status/${action}`
+        `/nodes/${node}/${vmType}/${vmid}/status/${action}`,
+        {}
       );
       return res.data.data;
     } catch (err) {
