@@ -125,9 +125,24 @@ export class ProxmoxClient {
         return new Error("Proxmox permission denied — token lacks required privileges");
       }
       if (err.response?.status === 500) {
-        const data = err.response.data as { errors?: Record<string, string> } | undefined;
-        const detail = data?.errors ? Object.values(data.errors).join(", ") : null;
-        return new Error(detail ? `Proxmox: ${detail}` : "Proxmox server error");
+        const data = err.response.data as
+          | { errors?: Record<string, string>; message?: string }
+          | string
+          | undefined;
+        let detail: string | null = null;
+        if (data && typeof data === "object") {
+          if (data.errors && Object.keys(data.errors).length > 0) {
+            detail = Object.values(data.errors).join(", ");
+          } else if (data.message) {
+            detail = data.message;
+          } else {
+            detail = JSON.stringify(data);
+          }
+        } else if (typeof data === "string" && data.length > 0) {
+          // strip HTML tags if Proxmox returned an error page
+          detail = data.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 200);
+        }
+        return new Error(detail ? `Proxmox: ${detail}` : `Proxmox 500 (no detail)`);
       }
       return new Error(
         `Proxmox API error (${context}): ${err.message}`
