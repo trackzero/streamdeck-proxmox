@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "UUID": "com.trackzero.proxmox",
+  "Name": "Proxmox Monitor",
+  "Version": "1.0.0",
+  "Description": "Monitor and control Proxmox VE virtual machines and LXC containers from your Stream Deck.",
+  "Author": "trackzero",
+  "Icon": "imgs/plugin-icon",
+  "CodePath": "bin/plugin.js",
+  "Software": {
+    "MinimumVersion": "6.4"
+  },
+  "Nodejs": {
+    "Version": "20",
+    "Debug": "localhost:9222"
+  },
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.15"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Actions": [
+    {
+      "UUID": "com.trackzero.proxmox.vm-monitor",
+      "Name": "VM Monitor",
+      "Icon": "imgs/actions/vm-monitor/action-icon",
+      "Tooltip": "Monitor a Proxmox VM or LXC container. Short press to start/stop, hold to reboot.",
+      "PropertyInspectorPath": "ui/vm-monitor.html",
+      "SupportedInMultiActions": false,
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/vm-monitor/key",
+          "Name": "Default"
+        }
+      ]
+    }
+  ]
+}
