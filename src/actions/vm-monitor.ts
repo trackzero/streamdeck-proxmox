@@ -194,7 +194,7 @@ export class VmMonitorAction extends SingletonAction<VmMonitorSettings> {
     if (st.confirmState === "confirm-reboot") {
       this.clearConfirmTimer(st);
       st.confirmState = "none";
-      const rebootAction = settings.vmType === "lxc" ? "restart" : "reboot";
+      const rebootAction = liveVmType(settings, st) === "lxc" ? "restart" : "reboot";
       await this.executeVmAction(id, ev.action, settings, st, rebootAction);
       return;
     }
@@ -329,7 +329,7 @@ export class VmMonitorAction extends SingletonAction<VmMonitorSettings> {
       return;
     }
 
-    const rebootAction = settings.vmType === "lxc" ? "restart" : "reboot";
+    const rebootAction = liveVmType(settings, st) === "lxc" ? "restart" : "reboot";
     await this.executeVmAction(id, actionRef, settings, st, rebootAction);
   }
 
@@ -346,7 +346,7 @@ export class VmMonitorAction extends SingletonAction<VmMonitorSettings> {
       const client = new ProxmoxClient(settings);
       await client.vmAction(
         settings.node,
-        settings.vmType,
+        liveVmType(settings, st),
         settings.vmid,
         vmAction as import("../proxmox/types.js").VmAction
       );
@@ -447,6 +447,12 @@ export class VmMonitorAction extends SingletonAction<VmMonitorSettings> {
       st.confirmTimer = null;
     }
   }
+}
+
+/** Prefer live VM type from cluster data over stored settings (avoids stale/wrong vmType). */
+function liveVmType(settings: VmMonitorSettings, st: InstanceState): "qemu" | "lxc" {
+  const t = st.lastResource?.type;
+  return t === "qemu" || t === "lxc" ? t : settings.vmType;
 }
 
 function shortErrorMsg(msg: string): string {
