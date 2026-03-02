@@ -59,7 +59,7 @@ class PollingManager {
 
     // Deliver last known data immediately if available
     if (entry.lastResources.length > 0) {
-      const resource = this.findResource(entry.lastResources, vmid, vmType);
+      const resource = this.findResource(entry.lastResources, vmid);
       listener(resource ?? null);
     }
 
@@ -109,7 +109,7 @@ class PollingManager {
       entry.errorCount = 0;
 
       for (const sub of entry.subscribers.values()) {
-        const resource = this.findResource(resources, sub.vmid, sub.vmType);
+        const resource = this.findResource(resources, sub.vmid);
         sub.listener(resource ?? null);
       }
     } catch (err) {
@@ -139,10 +139,11 @@ class PollingManager {
   private findResource(
     resources: ClusterResource[],
     vmid: number,
-    vmType: "qemu" | "lxc"
   ): ClusterResource | undefined {
+    // Match by vmid only; vmids are unique across qemu and lxc in Proxmox,
+    // and settings.vmType may be stale/wrong.
     return resources.find(
-      (r) => r.vmid === vmid && r.type === vmType
+      (r) => r.vmid === vmid && (r.type === "qemu" || r.type === "lxc")
     );
   }
 }
