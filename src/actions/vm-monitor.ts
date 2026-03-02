@@ -329,8 +329,7 @@ export class VmMonitorAction extends SingletonAction<VmMonitorSettings> {
       return;
     }
 
-    const rebootAction = liveVmType(settings, st) === "lxc" ? "restart" : "reboot";
-    await this.executeVmAction(id, actionRef, settings, st, rebootAction);
+    await this.executeVmAction(id, actionRef, settings, st, "reboot");
   }
 
   private async executeVmAction(
