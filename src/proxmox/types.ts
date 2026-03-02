@@ -80,4 +80,4 @@ export interface PveApiResponse<T> {
 }
 
 /** Possible VM/LXC power actions */
-export type VmAction = "start" | "stop" | "reboot" | "restart" | "shutdown" | "reset" | "suspend" | "resume";
+export type VmAction = "start" | "stop" | "reboot" | "shutdown" | "reset" | "suspend" | "resume";
