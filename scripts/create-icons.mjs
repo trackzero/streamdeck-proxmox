@@ -101,6 +101,10 @@ const icons = [
   { path: `${BASE}/plugin-icon.png`,       w: 28,  h: 28,  r: 0x1a, g: 0x1a, b: 0x2e },
   { path: `${BASE}/plugin-icon@2x.png`,    w: 56,  h: 56,  r: 0x1a, g: 0x1a, b: 0x2e },
 
+  // Category icon — dark navy (matches plugin icon), 28×28 and @2x 56×56
+  { path: `${BASE}/category-icon.png`,     w: 28,  h: 28,  r: 0x1a, g: 0x1a, b: 0x2e },
+  { path: `${BASE}/category-icon@2x.png`,  w: 56,  h: 56,  r: 0x1a, g: 0x1a, b: 0x2e },
+
   // Action icon — dark blue, 20×20 and @2x 40×40
   { path: `${BASE}/actions/vm-monitor/action-icon.png`,    w: 20,  h: 20,  r: 0x1e, g: 0x3a, b: 0x5f },
   { path: `${BASE}/actions/vm-monitor/action-icon@2x.png`, w: 40,  h: 40,  r: 0x1e, g: 0x3a, b: 0x5f },

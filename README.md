@@ -7,7 +7,7 @@ A Stream Deck plugin for monitoring and controlling [Proxmox VE](https://www.pro
 - **Live status display** — each key shows a VM's current state (running/stopped/paused) as a color-coded background
 - **CPU & RAM metrics** — usage percentages with progress bars, updated every 5 seconds
 - **Short press** — toggle start/stop
-- **Hold to reboot** — press and hold (≥500ms) to trigger a reboot (or `restart` for LXC)
+- **Hold to reboot** — press and hold (≥500ms) to trigger a reboot
 - **Optional confirmation** — enable a confirmation prompt per key; first press shows `STOP?`/`REBOOT?`, second press within 3s executes
 - **Self-signed cert support** — works with Proxmox's default TLS setup out of the box
 - **Efficient polling** — multiple keys sharing the same host reuse a single API poll
@@ -83,7 +83,7 @@ Each key shows the VM name, a status indicator, CPU%, and RAM% with mini progres
 | Input | Action |
 |---|---|
 | Short press | Toggle start / stop |
-| Hold (≥500ms) | Reboot (VM) or Restart (LXC) |
+| Hold (≥500ms) | Reboot |
 | Short press × 2 (with confirmation) | Confirm start/stop |
 
 ## Development

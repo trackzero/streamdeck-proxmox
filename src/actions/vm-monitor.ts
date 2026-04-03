@@ -194,7 +194,7 @@ export class VmMonitorAction extends SingletonAction<VmMonitorSettings> {
     if (st.confirmState === "confirm-reboot") {
       this.clearConfirmTimer(st);
       st.confirmState = "none";
-      const rebootAction = liveVmType(settings, st) === "lxc" ? "restart" : "reboot";
+      const rebootAction = "reboot";
       await this.executeVmAction(id, ev.action, settings, st, rebootAction);
       return;
     }
