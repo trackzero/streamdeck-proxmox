@@ -8,6 +8,7 @@
   "CategoryIcon": "imgs/category-icon",
   "Description": "Monitor and control Proxmox VE virtual machines and LXC containers from your Stream Deck.",
   "Author": "trackzero",
+  "URL": "https://github.com/trackzero/streamdeck-proxmox",
   "Icon": "imgs/plugin-icon",
   "CodePath": "bin/plugin.js",
   "Software": {
