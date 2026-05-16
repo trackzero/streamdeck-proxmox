@@ -3,7 +3,7 @@
   "UUID": "com.trackzero.proxmox",
   "Name": "Proxmox Monitor",
   "Version": "1.0.0.0",
-  "SDKVersion": 2,
+  "SDKVersion": 3,
   "Category": "Proxmox Monitor",
   "CategoryIcon": "imgs/category-icon",
   "Description": "Monitor and control Proxmox VE virtual machines and LXC containers from your Stream Deck.",
@@ -12,7 +12,7 @@
   "Icon": "imgs/plugin-icon",
   "CodePath": "bin/plugin.js",
   "Software": {
-    "MinimumVersion": "6.4"
+    "MinimumVersion": "6.9"
   },
   "Nodejs": {
     "Version": "20"

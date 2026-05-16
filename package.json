@@ -10,11 +10,11 @@
     "icons": "node scripts/create-icons.mjs"
   },
   "dependencies": {
-    "@elgato/streamdeck": "^2.0.1",
+    "@elgato/streamdeck": "^2.1.0",
     "axios": "^1.6.0"
   },
   "devDependencies": {
-    "@elgato/cli": "^1.7.1",
+    "@elgato/cli": "^1.7.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
