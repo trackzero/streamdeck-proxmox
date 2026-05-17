@@ -88,12 +88,10 @@ Each key shows the VM name, a status indicator, CPU%, and RAM% with mini progres
 
 ## Screenshots
 
-<img width="59" height="60" alt="Screenshot 2026-05-16 150212" src="https://github.com/user-attachments/assets/36e6530e-52f5-4f30-bb45-68760896fd7e" />
-
 <img width="529" height="475" alt="Screenshot 2026-05-16 150029" src="https://github.com/user-attachments/assets/746025cd-e666-4f57-ae0e-fb4db1d8ad83" />
-
+<BR>
 <img width="480" height="92" alt="Screenshot 2026-05-16 150327" src="https://github.com/user-attachments/assets/ccc199e7-3ab8-42f1-bdc5-f1034d311f90" />
-
+<BR>
 <img width="602" height="570" alt="Screenshot 2026-05-16 150125" src="https://github.com/user-attachments/assets/827e952c-dec8-46d5-bbc3-d866be579646" />
 
 
